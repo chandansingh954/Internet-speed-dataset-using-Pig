@@ -1,0 +1,52 @@
+                                            Internet Speed Datasets:
+
+
+
+Problem Statement 1:Number of users of each operator:
+
+a = load 'myspeed.csv' using PigStorage(',');
+b = foreach a generate (chararray)$0 as operator,(chararray)$2 as testtype;
+c = filter b by testtype == '"download"';
+d = group c by operator;
+e = foreach d generate group,COUNT(c.operator);
+result = order e by $1 DESC;
+
+
+
+
+Problem Statement 2:operator with diffrent technologies:
+
+a = load 'myspeed.csv' using PigStorage(',');
+b = foreach a generate (chararray)$0 as operator,(chararray)$1 as technology;
+result = DISTINCT b;
+
+
+
+Problem Statement 3:Number of users in each area:
+
+a = load 'myspeed.csv' using PigStorage(',');
+b = foreach a generate (chararray)$0 as operator,(chararray)$2 as testtype,(chararray)$5 as Lservicearea;
+c = filter b by testtype == '"download"';
+d = group c by Lservicearea;
+e = foreach d generate group , COUNT(c.Lservicearea);
+result = order e by $1 DESC; 
+
+
+
+
+Problem Statement 4: Operator with the highiest download speed:
+
+a = load 'myspeed.csv' using PigStorage(',');
+b = foreach a generate (chararray)$0 as operator,(chararray)$2 as testtype,(int)$3 as speed,(chararray)$5 as Lservicearea;
+c = filter b by testtype == '"download"';
+d = order c by $2 DESC;
+result = limit d 1;
+
+
+
+ 
+
+
+
+
+
